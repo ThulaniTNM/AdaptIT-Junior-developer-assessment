@@ -1,0 +1,11 @@
+System objective
+1. introduction.
+- Manage training courses.
+- delegate registration for internal & external staff.
+
+
+
+2. details.
+- view list of all upcoming training for all active courses.
+
+- register for course training.

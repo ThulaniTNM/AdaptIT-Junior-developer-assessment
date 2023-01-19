@@ -1,0 +1,103 @@
+course code auto-generate string value.
+
+Constraint.
+- course table.
+-- - training date cannot be greater than registration closing date.
+
+
+
+
+should dietary requirement be its own table?
+- can be enum, constraint with range of allowed values.
+
+physical & postal address in db design.
+- can a person have more than one physical or postal address.
+
+
+DB logic
+- a course can exist without users registered for it.
+.
+
+Assumptions
+- A = assumptions.
+
+- A1 delegate can apply for more than one training.
+-- - safety & health. 
+-- - work ethics.
+-- - etc.
+
+- A11 delegate can only apply for one training.
+-- - safety & health only.
+
+- A2 a single course can have many delegates.
+
+- A22 a single course can have one delegate.
+-- - uniquely catered ?
+
+- A3 delegate can have more than one house
+
+- A33 delegate can have more than one postal address for any kind of postal delivery.
+
+
+- A4 training taking more than day append number of days to starting day
+
+- A44 allow training lasting more than one day to have different dates.
+
+-- - would't make sense to train for something then continue training after two days.
+
+-- - training day starting Friday & last 3 days should probably be schedule to continue saturday & sunday.
+
+
+- A5 a course can exist without users registered for it, this to just list all available courses.
+
+- A55 course table null columns for data not yet set or data yet to be announced.
+
+- A6 dietary requiments can be table in data, can be enum in code.
+
+- A66 seems like user can only be able to select one dietary plan, one-many for possible multiselect drop-down list.
+
+
+
+
+
+
+******************************************************
+To create db with more control & learning, use EF code-first, generate all scripts, combine into one the save. Execute & test.
+
+create database DBAdaptTest
+
+use DBAdaptTest
+
+CREATE TABLE [dbo].[Grades](
+	[GradeId] [int] IDENTITY(1,1) NOT NULL,
+	[GradeName] [nvarchar](max) NULL,
+	[Section] [nvarchar](max) NULL,
+ CONSTRAINT [PK_dbo.Grades] PRIMARY KEY CLUSTERED 
+(
+	[GradeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[Students](
+	[StudentID] [int] IDENTITY(1,1) NOT NULL,
+	[StudentName] [nvarchar](max) NULL,
+	[DateOfBirth] [datetime] NULL,
+	[Photo] [varbinary](max) NULL,
+	[Height] [decimal](18, 2) NOT NULL,
+	[Weight] [real] NOT NULL,
+	[Test1Delete] [real] NOT NULL,
+	[GradeId] [int] NULL,
+ CONSTRAINT [PK_dbo.Students] PRIMARY KEY CLUSTERED 
+(
+	[StudentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Students]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Students_dbo.Grades_GradeId] FOREIGN KEY([GradeId])
+REFERENCES [dbo].[Grades] ([GradeId])
+GO
+
+ALTER TABLE [dbo].[Students] CHECK CONSTRAINT [FK_dbo.Students_dbo.Grades_GradeId]
+GO
