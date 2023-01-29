@@ -60,7 +60,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
             if (isCourseExisting) return BadRequest($"Course with ID {courseID} already exists"); // valid data may require internal server error.
 
             _courseRules.AddCourse(courseDTO);
-            return CreatedAtRoute("GetCourseById", courseDTO);
+            return CreatedAtRoute("GetCourseById", new { id = courseDTO.CourseId }, courseDTO);
         }
 
         [HttpPut("{id}")]
