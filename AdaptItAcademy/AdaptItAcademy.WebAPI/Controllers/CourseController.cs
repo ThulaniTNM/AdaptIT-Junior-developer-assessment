@@ -1,6 +1,7 @@
 ﻿using AdaptITAcademy.BusinessLogic.Business;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
 using AdaptITAcademyAPI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -20,16 +21,21 @@ namespace AdaptItAcademy.WebAPI.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<CourseDTO>> GetAllCourse()
         {
             List<CourseDTO> courses = _courseRules.GetAllCourses();
-            
-            if(courses.Count == 0) { return NotFound("Course list is empty"); };
 
-            return courses;
+            if (courses.Count == 0) { return NotFound("Course list is empty"); };
+
+            return Ok(courses);
         }
 
         [HttpGet("{id}", Name = "GetCourseById")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<CourseDTO> GetCourseById(int id)
         {
             if (id == 0) return BadRequest("Non existent course");
@@ -42,6 +48,8 @@ namespace AdaptItAcademy.WebAPI.Controllers
 
         [HttpPost]
         [Route("AddCourse")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult<CourseDTO> Post([FromBody] CourseDTO courseDTO)
         {
             if (courseDTO == null) return BadRequest("Non existent course");
@@ -49,17 +57,20 @@ namespace AdaptItAcademy.WebAPI.Controllers
             var courseID = courseDTO.CourseId;
             bool isCourseExisting = GetCourse(courseID) == null ? false : true;
 
-            if (isCourseExisting) return BadRequest($"Course with ID {courseID} already exists");
+            if (isCourseExisting) return BadRequest($"Course with ID {courseID} already exists"); // valid data may require internal server error.
 
             _courseRules.AddCourse(courseDTO);
             return CreatedAtRoute("GetCourseById", courseDTO);
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<CourseDTO> Put(int id, [FromBody] CourseDTO courseDTO)
         {
             if (id == 0 || id != courseDTO.CourseId) return BadRequest($"Incorrect supplied id {id}");
-            
+
             var course = GetCourse(id);
             if (course == null) return NotFound($"Course with ID {id} does not exist");
 
@@ -68,9 +79,12 @@ namespace AdaptItAcademy.WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<CourseDTO>  Delete(int id)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult<CourseDTO> Delete(int id)
         {
-            if (id == 0 ) return BadRequest($"Incorrect supplied id {id}");
+            if (id == 0) return BadRequest($"Incorrect supplied id {id}");
 
             var course = GetCourse(id);
             if (course == null) return NotFound($"Course with ID {id} does not exist");
@@ -79,6 +93,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
             return NoContent();
         }
 
+        // Reusable helper methods declarations
         public CourseDTO GetCourse(int id)
         {
             return _courseRules.GetCourseById(id);
