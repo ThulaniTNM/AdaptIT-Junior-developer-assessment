@@ -21,7 +21,6 @@ namespace AdaptITAcademy.BusinessLogic.Business
         {
             _courseAcademyRepository = new AdaptItAcademyRepository<Course>();
             _courseMapper = new Mapper(new MapperConfiguration(config => config.CreateMap<Course, CourseDTO>().ReverseMap()));
-
         }
 
         public void AddCourse(CourseDTO courseDTO)

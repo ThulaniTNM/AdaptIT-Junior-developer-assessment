@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace AdaptItAcademy.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Course")]
     [ApiController]
     public class CourseController : ControllerBase
     {
@@ -94,7 +94,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         }
 
         // Reusable helper methods declarations
-        public CourseDTO GetCourse(int id)
+        private CourseDTO GetCourse(int id)
         {
             return _courseRules.GetCourseById(id);
         }
