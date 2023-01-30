@@ -11,11 +11,11 @@ namespace AdaptItAcademy.WebAPI.Controllers
     [ApiController]
     public class TrainingController : ControllerBase
     {
-        private TrainingRules _trainingRules;
+        private IRules<TrainingDTO> _trainingRules;
 
-        public TrainingController()
+        public TrainingController(IRules<TrainingDTO> trainingRules)
         {
-            _trainingRules = new TrainingRules();
+            _trainingRules = trainingRules;
         }
 
         [HttpGet]
@@ -23,7 +23,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<TrainingDTO>> GetAllTrainings()
         {
-            List<TrainingDTO> trainings = _trainingRules.GetAllTrainings();
+            List<TrainingDTO> trainings = _trainingRules.GetAll();
 
             if (trainings.Count == 0) { return NotFound("Training list is empty"); };
 
@@ -57,7 +57,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
 
             if (isTrainingExisting) return BadRequest($"Training with ID {trainingID} already exists"); // valid data may require internal server error.
 
-            _trainingRules.AddTraining(trainingDTO);
+            _trainingRules.Add(trainingDTO);
             return CreatedAtRoute("GetTrainingById", new { id = trainingDTO.TrainingID }, trainingDTO);
         }
 
@@ -72,7 +72,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
             var training = GetTraining(id);
             if (training == null) return NotFound($"Training with ID {id} does not exist");
 
-            _trainingRules.UpdateTraining(id, trainingDTO);
+            _trainingRules.Update(id, trainingDTO);
             return NoContent();
         }
 
@@ -87,7 +87,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
             var training = GetTraining(id);
             if (training == null) return NotFound($"Training with ID {id} does not exist");
 
-            _trainingRules.DeleteTraining(id);
+            _trainingRules.Delete(id);
             return NoContent();
         }
 
@@ -95,7 +95,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         // make generic and static, rename to GetById
         private TrainingDTO GetTraining(int id)
         {
-            return _trainingRules.GetCourseById(id);
+            return _trainingRules.GetById(id);
         }
     }
 }

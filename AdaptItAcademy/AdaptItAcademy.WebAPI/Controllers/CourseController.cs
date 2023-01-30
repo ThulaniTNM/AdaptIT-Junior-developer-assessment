@@ -1,4 +1,5 @@
 ﻿using AdaptITAcademy.BusinessLogic.Business;
+using AdaptITAcademy.BusinessLogic.Business_Rules;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
 using AdaptITAcademyAPI.Models;
 using Microsoft.AspNetCore.Http;
@@ -13,11 +14,11 @@ namespace AdaptItAcademy.WebAPI.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private CourseRules _courseRules;
+        private IRules<CourseDTO> _courseRules;
 
-        public CourseController() // inject dependency?
+        public CourseController(IRules<CourseDTO> courseRules)
         {
-            _courseRules = new CourseRules();
+            _courseRules = courseRules;
         }
 
         [HttpGet]
@@ -25,7 +26,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<CourseDTO>> GetAllCourse()
         {
-            List<CourseDTO> courses = _courseRules.GetAllCourses();
+            List<CourseDTO> courses = _courseRules.GetAll();
 
             if (courses.Count == 0) { return NotFound("Course list is empty"); };
 
@@ -59,7 +60,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
 
             if (isCourseExisting) return BadRequest($"Course with ID {courseID} already exists"); // valid data may require internal server error.
 
-            _courseRules.AddCourse(courseDTO);
+            _courseRules.Add(courseDTO);
             return CreatedAtRoute("GetCourseById", new { id = courseDTO.CourseId }, courseDTO);
         }
 
@@ -74,7 +75,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
             var course = GetCourse(id);
             if (course == null) return NotFound($"Course with ID {id} does not exist");
 
-            _courseRules.UpdateCourse(id, courseDTO);
+            _courseRules.Update(id, courseDTO);
             return NoContent();
         }
 
@@ -89,14 +90,14 @@ namespace AdaptItAcademy.WebAPI.Controllers
             var course = GetCourse(id);
             if (course == null) return NotFound($"Course with ID {id} does not exist");
 
-            _courseRules.DeleteCourse(id);
+            _courseRules.Delete(id);
             return NoContent();
         }
 
         // Reusable helper methods declarations
         private CourseDTO GetCourse(int id)
         {
-            return _courseRules.GetCourseById(id);
+            return _courseRules.GetById(id);
         }
     }
 }

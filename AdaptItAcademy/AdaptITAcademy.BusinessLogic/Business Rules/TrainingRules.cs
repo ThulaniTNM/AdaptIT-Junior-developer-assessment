@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AdaptITAcademy.BusinessLogic.Business_Rules
 {
-    public class TrainingRules
+    public class TrainingRules : IRules<TrainingDTO>
     {
         private AdaptItAcademyRepository<Training> _trainingAcademyRepository;
         private Mapper _courseMapper;
@@ -21,21 +21,21 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
             _courseMapper = new Mapper(new MapperConfiguration(config => config.CreateMap<Training, TrainingDTO>().ReverseMap()));
         }
 
-        public List<TrainingDTO> GetAllTrainings()
+        public List<TrainingDTO> GetAll()
         {
             List<Training> trainings = _trainingAcademyRepository.GetAll();
             List<TrainingDTO> trainingsDTO = _courseMapper.Map<List<Training>, List<TrainingDTO>>(trainings);
             return trainingsDTO;
         }
 
-        public TrainingDTO GetCourseById(object id)
+        public TrainingDTO GetById(object id)
         {
             Training training = _trainingAcademyRepository.GetById(id);
             TrainingDTO trainingDTO = _courseMapper.Map<Training, TrainingDTO>(training);
             return trainingDTO;
         }
 
-        public void AddTraining(TrainingDTO trainingDTO)
+        public void Add(TrainingDTO trainingDTO)
         {
             // ignore trainingDTO id when mapping during post
             var courseMapperConfig = new MapperConfiguration(cfg =>
@@ -53,13 +53,13 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
             _trainingAcademyRepository.Add(training);
         }
 
-        public void UpdateTraining(object id, TrainingDTO trainingDTO)
+        public void Update(object id, TrainingDTO trainingDTO)
         {
             Training training = _courseMapper.Map<TrainingDTO, Training>(trainingDTO);
             _trainingAcademyRepository.Update(training);
         }
 
-        public void DeleteTraining(object id)
+        public void Delete(object id)
         {
             _trainingAcademyRepository.Delete(id);
         }

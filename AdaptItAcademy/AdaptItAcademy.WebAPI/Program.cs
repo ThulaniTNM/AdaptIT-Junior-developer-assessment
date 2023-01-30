@@ -1,4 +1,7 @@
 using AdaptItAcademy.DataAccess.Models;
+using AdaptITAcademy.BusinessLogic.Business;
+using AdaptITAcademy.BusinessLogic.Business_Rules;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -10,7 +13,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddTransient< IRules<CourseDTO>, CourseRules>();    
+builder.Services.AddTransient< IRules<TrainingDTO>, TrainingRules>();    
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
