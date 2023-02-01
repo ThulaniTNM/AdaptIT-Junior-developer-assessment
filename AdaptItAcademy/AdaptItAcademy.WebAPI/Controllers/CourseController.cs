@@ -55,6 +55,9 @@ namespace AdaptItAcademy.WebAPI.Controllers
         {
             if (courseDTO == null) return BadRequest("Non existent course");
 
+            // id exposure required by other endpoints operation, id >0 not client fault
+            if (courseDTO.CourseId != 0) return StatusCode(StatusCodes.Status500InternalServerError);
+
             var courseID = courseDTO.CourseId;
             bool isCourseExisting = GetCourse(courseID) == null ? false : true;
 

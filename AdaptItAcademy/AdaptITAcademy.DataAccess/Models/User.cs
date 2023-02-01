@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace AdaptITAcademyAPI.Models {
-    public class User {
+    public class User { // user in this case = delegate to be registered for training.
         [Required(ErrorMessage = "User id required")]
         public int UserId { get; set; }
 
@@ -11,9 +11,9 @@ namespace AdaptITAcademyAPI.Models {
         [Required(ErrorMessage = "Last name required")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Phone number required")]
-        [Range(10, 10, ErrorMessage = "10 numbers required")]
-        public int PhonenNumer { get; set; }
+        //[Required(ErrorMessage = "Phone number required")]
+        //[Range(10, 10, ErrorMessage = "10 numbers required")]
+        public string PhonenNumer { get; set; }
 
         [Required(ErrorMessage = "Email required")]
         public string Email { get; set; }
