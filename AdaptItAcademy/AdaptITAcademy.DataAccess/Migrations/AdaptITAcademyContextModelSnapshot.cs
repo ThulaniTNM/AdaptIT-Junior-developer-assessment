@@ -41,7 +41,7 @@ namespace AdaptITAcademy.DataAccess.Migrations
 
                     b.HasKey("CourseId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("AdaptITAcademyAPI.Models.PhysicalAddress", b =>
@@ -74,7 +74,7 @@ namespace AdaptITAcademy.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PhysicalAddresses");
+                    b.ToTable("PhysicalAddresses", (string)null);
                 });
 
             modelBuilder.Entity("AdaptITAcademyAPI.Models.PostalAddress", b =>
@@ -103,7 +103,7 @@ namespace AdaptITAcademy.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PostalAddresses");
+                    b.ToTable("PostalAddresses", (string)null);
                 });
 
             modelBuilder.Entity("AdaptITAcademyAPI.Models.Training", b =>
@@ -139,7 +139,7 @@ namespace AdaptITAcademy.DataAccess.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Trainings");
+                    b.ToTable("Trainings", (string)null);
                 });
 
             modelBuilder.Entity("AdaptITAcademyAPI.Models.User", b =>
@@ -175,7 +175,7 @@ namespace AdaptITAcademy.DataAccess.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("AdaptITAcademyAPI.Models.UserTraining", b =>
@@ -202,7 +202,7 @@ namespace AdaptITAcademy.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserTrainings");
+                    b.ToTable("UserTrainings", (string)null);
                 });
 
             modelBuilder.Entity("AdaptITAcademyAPI.Models.PhysicalAddress", b =>

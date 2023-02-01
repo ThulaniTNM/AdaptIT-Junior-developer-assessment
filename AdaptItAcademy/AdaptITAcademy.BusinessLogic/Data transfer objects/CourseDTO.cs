@@ -15,7 +15,6 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public int CourseId { get; set; }
 
         [Required(ErrorMessage = "Course name required")]
-
         public string CourseName { get; set; }
 
         [Required(ErrorMessage = "Course description required")]

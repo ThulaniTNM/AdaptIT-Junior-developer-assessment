@@ -34,8 +34,8 @@ namespace AdaptITAcademy.BusinessLogic.Business
             });
 
             _courseMapper = new Mapper(courseMapperConfig);
-
             Course course = _courseMapper.Map<CourseDTO, Course>(courseDTO);
+
             _courseAcademyRepository.Add(course);
         }
 
@@ -43,6 +43,7 @@ namespace AdaptITAcademy.BusinessLogic.Business
         {
             List<Course> courses = _courseAcademyRepository.GetAll();
             List<CourseDTO> coursesDTO = _courseMapper.Map<List<Course>, List<CourseDTO>>(courses);
+
             return coursesDTO;
         }
 
@@ -50,6 +51,7 @@ namespace AdaptITAcademy.BusinessLogic.Business
         {
             Course course = _courseAcademyRepository.GetById(id);
             CourseDTO courseDTO = _courseMapper.Map<Course, CourseDTO>(course);
+
             return courseDTO;
         }
 
