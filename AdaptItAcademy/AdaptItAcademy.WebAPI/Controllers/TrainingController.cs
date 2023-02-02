@@ -52,10 +52,10 @@ namespace AdaptItAcademy.WebAPI.Controllers
         {
             if (trainingDTO == null) return BadRequest("Non existent training");
 
-            var trainingID = trainingDTO.CourseId;
-            bool isTrainingExisting = GetTraining(trainingID) == null ? false : true;
+            if (trainingDTO.TrainingID != 0) return BadRequest("ID not required for training creation");
 
-            if (isTrainingExisting) return BadRequest($"Training with ID {trainingID} already exists"); // valid data may require internal server error.
+            CourseDTO trainingCourseExistence = VerifyRelatedTableExistent(trainingDTO.CourseId);
+            if (trainingCourseExistence == null) return NotFound("Course referenced for training not existing");
 
             _trainingRules.Add(trainingDTO);
             return CreatedAtRoute("GetTrainingById", new { id = trainingDTO.TrainingID }, trainingDTO);
@@ -71,6 +71,9 @@ namespace AdaptItAcademy.WebAPI.Controllers
 
             var training = GetTraining(id);
             if (training == null) return NotFound($"Training with ID {id} does not exist");
+
+            CourseDTO trainingCourseExistence = VerifyRelatedTableExistent(trainingDTO.CourseId);
+            if (trainingCourseExistence == null) return NotFound("Course referenced for training not existing");
 
             _trainingRules.Update(id, trainingDTO);
             return NoContent();
@@ -96,6 +99,16 @@ namespace AdaptItAcademy.WebAPI.Controllers
         private TrainingDTO GetTraining(int id)
         {
             return _trainingRules.GetById(id);
+        }
+
+
+        // course to create training for has to exist first.
+        private CourseDTO VerifyRelatedTableExistent(int id)
+        {
+            int trainingCourseIdInput = id;
+            IRules<CourseDTO> courseRules = new CourseRules();
+            CourseDTO course = courseRules.GetById(trainingCourseIdInput);
+            return course;
         }
     }
 }

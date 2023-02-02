@@ -11,9 +11,9 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
     public class TrainingDTO
     {
         [Required(ErrorMessage = "Training id required")]
-        public int TrainingID { get; set; }
+        public int TrainingID { get; set; } // for posting not required but updates & delete require id.
 
-        [Required(ErrorMessage = "Training day start day required")]
+        [Required(ErrorMessage = "Training start date required")]
         public DateTime TrainingStartDate { get; set; }
 
         [Required(ErrorMessage = "Number of training days required")]
@@ -25,7 +25,7 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public DateTime TrainingRegistrationClosingDate { get; set; }
 
         [Required(ErrorMessage = "Number of available seats required")]
-        [Range(0, int.MaxValue, ErrorMessage = "Seats cannot be less than 0")]
+        [Range(0, 10, ErrorMessage = "Seats cannot be less than 0")] // max of 10 seats allowed for each training creation
         public int AvailableSeats { get; set; }
 
         [Required(ErrorMessage = "Training cost is required")]
