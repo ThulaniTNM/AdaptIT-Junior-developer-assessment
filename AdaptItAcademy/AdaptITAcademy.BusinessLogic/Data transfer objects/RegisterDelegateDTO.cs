@@ -23,6 +23,8 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public string PhonenNumer { get; set; }
 
         [Required(ErrorMessage = "Email required")]
+        // negate all non-alphabet characters at the end of the email.
+        [RegularExpression("^[a-zA-Z0-9+\\._-]+@[a-zA-Z]+\\.[a-zA-Z\\.-]+[^()._;*\\[\\]{}+-=|\"'><?&^$#!~%\\\\]$",ErrorMessage ="Incorrect email pattern")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Dietary option required")]
