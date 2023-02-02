@@ -21,6 +21,8 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Phone number required")]
+        [MaxLength(10, ErrorMessage = "Phone number should be 10 numbers")]
+        [RegularExpression(@"0(\d{9}|\d{2} \d{3} \d{4}|\d{2}-\d{3}-\d{4})",ErrorMessage = " Use Eg 071-144-6789 or 067 145 8521 or 0647894563")]
         public string PhonenNumer { get; set; }
 
         [Required(ErrorMessage = "Email required")]
