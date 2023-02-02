@@ -1,4 +1,5 @@
-﻿using AdaptITAcademyAPI.Models;
+﻿using AdaptITAcademy.BusinessLogic.Custom_validations;
+using AdaptITAcademyAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +29,7 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Dietary option required")]
+        [DietaryRequirementCheck]
         public DietaryRequirements DietaryRequirements { get; set; }
 
         [Required(ErrorMessage = "Company name required")]
@@ -46,7 +48,7 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public string Province { get; set; }
 
         [Required(ErrorMessage = "Postal code required")]
-        [Range(4, 4, ErrorMessage = "Postal code should be 4 numbers")]
+        [PostalCodeCheckAttribute]
         public int PostalCodePhysicalAddress { get; set; }
         // user physical address end
 
@@ -58,7 +60,7 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public string Country { get; set; }
 
         [Required(ErrorMessage = "Postal code required")]
-        [Range(4, 4, ErrorMessage = "Postal code should be 4 numbers")]
+        [PostalCodeCheckAttribute]
         public int PostalCodePostalAddress { get; set; }
         // postal address end.
 
@@ -66,6 +68,7 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public int TrainingId { get; set; }
 
         [Required(ErrorMessage = "Payment status required")]
+        [PaymentStatusCheck]
         public string PaymentStatus { get; set; }
     }
 }

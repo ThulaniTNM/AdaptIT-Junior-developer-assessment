@@ -103,6 +103,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
 
 
         // course to create training for has to exist first.
+        // refactor to use one generic class.
         private CourseDTO VerifyRelatedTableExistent(int id)
         {
             int trainingCourseIdInput = id;

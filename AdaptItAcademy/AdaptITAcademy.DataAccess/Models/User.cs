@@ -30,9 +30,9 @@ namespace AdaptITAcademyAPI.Models {
     }
 
     public enum DietaryRequirements {
-        Vegetarian,
-        Halal,
-        Vegan,
-        Other
+        Vegetarian = 1,
+        Halal = 2,
+        Vegan = 3,
+        Other = 4
     }
 }
