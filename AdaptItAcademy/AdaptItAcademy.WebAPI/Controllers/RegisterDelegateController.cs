@@ -12,10 +12,12 @@ namespace AdaptItAcademy.WebAPI.Controllers
     public class RegisterDelegateController : ControllerBase
     {
         IRegisterDelegateRules _registerDelegateRules;
-        public RegisterDelegateController(IRegisterDelegateRules registerDelegateRules)
+        private IRules<TrainingDTO> _trainingRules;
+
+        public RegisterDelegateController(IRegisterDelegateRules registerDelegateRules, IRules<TrainingDTO> trainingRules)
         {
             _registerDelegateRules = registerDelegateRules;
-
+            _trainingRules = trainingRules;
         }
 
         [HttpPost]
@@ -31,8 +33,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         private TrainingDTO VerifyRelatedTableExistent(int id)
         {
             int trainingCourseIdInput = id;
-            IRules<TrainingDTO> trainingRules = new TrainingRules();
-            TrainingDTO training = trainingRules.GetById(trainingCourseIdInput);
+            TrainingDTO training = _trainingRules.GetById(trainingCourseIdInput);
 
             return training;
         }

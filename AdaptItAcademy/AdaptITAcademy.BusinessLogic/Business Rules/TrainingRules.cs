@@ -13,25 +13,25 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
     public class TrainingRules : IRules<TrainingDTO>
     {
         private AdaptItAcademyRepository<Training> _trainingAcademyRepository;
-        private Mapper _trainingMapper;
+        private IMapper _trainingMapper;
 
-        public TrainingRules()
+        public TrainingRules(IMapper mapper)
         {
             _trainingAcademyRepository = new AdaptItAcademyRepository<Training>();
-            _trainingMapper = new Mapper(new MapperConfiguration(config => config.CreateMap<Training, TrainingDTO>().ReverseMap()));
+            _trainingMapper = mapper;
         }
 
         public List<TrainingDTO> GetAll()
         {
             List<Training> trainings = _trainingAcademyRepository.GetAll();
-            List<TrainingDTO> trainingsDTO = _trainingMapper.Map<List<Training>, List<TrainingDTO>>(trainings);
+            List<TrainingDTO> trainingsDTO = _trainingMapper.Map< List<TrainingDTO>>(trainings);
             return trainingsDTO;
         }
 
         public TrainingDTO GetById(object id)
         {
             Training training = _trainingAcademyRepository.GetById(id);
-            TrainingDTO trainingDTO = _trainingMapper.Map<Training, TrainingDTO>(training);
+            TrainingDTO trainingDTO = _trainingMapper.Map<TrainingDTO>(training);
             return trainingDTO;
         }
 
@@ -44,9 +44,9 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
                     .ForMember(training => training.TrainingID, act => act.Ignore());
             });
 
-            _trainingMapper = new Mapper(courseMapperConfig);
+            var tempMapper = new Mapper(courseMapperConfig);
 
-            Training training = _trainingMapper.Map<TrainingDTO, Training>(trainingDTO);
+            Training training = tempMapper.Map<Training>(trainingDTO);
 
             // compute end date from starting date & number of days training will take + 5 hours assuming each training takes 5 hours
             training.TrainingEndDate = training.TrainingStartDate.AddDays(training.TrainingPeriod).AddHours(5);
@@ -55,7 +55,7 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
 
         public void Update(object id, TrainingDTO trainingDTO)
         {
-            Training training = _trainingMapper.Map<TrainingDTO, Training>(trainingDTO);
+            Training training = _trainingMapper.Map<Training>(trainingDTO);
             _trainingAcademyRepository.Update(training);
         }
 

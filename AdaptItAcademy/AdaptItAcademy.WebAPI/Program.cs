@@ -17,7 +17,8 @@ builder.Services.AddSwaggerGen();
 // recreate all service instance for all scopes of request.
 builder.Services.AddTransient< IRules<CourseDTO>, CourseRules>();
 builder.Services.AddTransient< IRules<TrainingDTO>, TrainingRules>();
-builder.Services.AddTransient<IRegisterDelegateRules, RegisterDelegateRules>(); 
+builder.Services.AddTransient<IRegisterDelegateRules, RegisterDelegateRules>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

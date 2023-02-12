@@ -16,25 +16,26 @@ namespace AdaptITAcademy.BusinessLogic.Business
     public class CourseRules : IRules<CourseDTO>
     {
         private AdaptItAcademyRepository<Course> _courseAcademyRepository;
-        private Mapper _courseMapper;
+        private IMapper _courseMapper;
 
-        public CourseRules()
+        public CourseRules(IMapper mapper)
         {
             _courseAcademyRepository = new AdaptItAcademyRepository<Course>();
-            _courseMapper = new Mapper(new MapperConfiguration(config => config.CreateMap<Course, CourseDTO>().ReverseMap()));
+            _courseMapper = mapper;
         }
 
         public void Add(CourseDTO courseDTO)
         {
             // ignore courseDTO id when mapping during post
+            // courseDTO read & write creation can resolve this.
             var courseMapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<CourseDTO, Course>()
                     .ForMember(course => course.CourseId, act => act.Ignore());
             });
 
-            _courseMapper = new Mapper(courseMapperConfig);
-            Course course = _courseMapper.Map<CourseDTO, Course>(courseDTO);
+            var tempMapper = new Mapper(courseMapperConfig);
+            Course course = tempMapper.Map<Course>(courseDTO);
 
             _courseAcademyRepository.Add(course);
         }
@@ -42,7 +43,7 @@ namespace AdaptITAcademy.BusinessLogic.Business
         public List<CourseDTO> GetAll()
         {
             List<Course> courses = _courseAcademyRepository.GetAll();
-            List<CourseDTO> coursesDTO = _courseMapper.Map<List<Course>, List<CourseDTO>>(courses);
+            List<CourseDTO> coursesDTO = _courseMapper.Map<List<CourseDTO>>(courses);
 
             return coursesDTO;
         }
@@ -50,14 +51,14 @@ namespace AdaptITAcademy.BusinessLogic.Business
         public CourseDTO GetById(object id)
         {
             Course course = _courseAcademyRepository.GetById(id);
-            CourseDTO courseDTO = _courseMapper.Map<Course, CourseDTO>(course);
+            CourseDTO courseDTO = _courseMapper.Map< CourseDTO>(course);
 
             return courseDTO;
         }
 
         public void Update(object id, CourseDTO courseDTO)
         {
-            Course course = _courseMapper.Map<CourseDTO, Course>(courseDTO);
+            Course course = _courseMapper.Map<Course>(courseDTO);
             _courseAcademyRepository.Update(course);
         }
 

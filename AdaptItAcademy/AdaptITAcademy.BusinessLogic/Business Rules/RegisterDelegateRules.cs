@@ -23,7 +23,9 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
         private Mapper _physicalAddressMapper;
         private Mapper _postalAddressMapper;
 
-        public RegisterDelegateRules()
+        private IMapper _registerDelegateMapper;
+
+        public RegisterDelegateRules(IMapper mapper)
         {
             _delegateTrainingRegistrationAcademyRepository = new AdaptItAcademyRepository<UserTraining>();
             _userAcademyRepository = new AdaptItAcademyRepository<User>();
@@ -31,25 +33,20 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
             _postalAddressAcademyRepository = new AdaptItAcademyRepository<PostalAddress>();
             _trainingAcademyRepository = new AdaptItAcademyRepository<Training>();
 
-            _userTrainingMapper = new Mapper(new MapperConfiguration(config => config.CreateMap<RegisterDelegateDTO, UserTraining>().ReverseMap()));
-            _userMapper = new Mapper(new MapperConfiguration(config => config.CreateMap<RegisterDelegateDTO, User>().ReverseMap()));
-            _physicalAddressMapper = new Mapper(new MapperConfiguration(config => config.CreateMap<RegisterDelegateDTO, PhysicalAddress>().ReverseMap()));
-            _postalAddressMapper = new Mapper(new MapperConfiguration(config => config.CreateMap<RegisterDelegateDTO, PostalAddress>().ReverseMap()));
+            _registerDelegateMapper = mapper;
         }
 
         public void RegisterDelegate(RegisterDelegateDTO registerDelegateDTO)
         {
-            // we saving a lot of entities here and will need a lot of extraction.
-            UserTraining userTraining = _userTrainingMapper.Map<RegisterDelegateDTO, UserTraining>(registerDelegateDTO);
-            User user = _userMapper.Map<RegisterDelegateDTO, User>(registerDelegateDTO);
-            PostalAddress postalAddress = _postalAddressMapper.Map<RegisterDelegateDTO, PostalAddress>(registerDelegateDTO);
-            PhysicalAddress physicalAddress = _physicalAddressMapper.Map<RegisterDelegateDTO, PhysicalAddress>(registerDelegateDTO);
-
-
+            // extract data for all entities of interest.
+            UserTraining userTraining = _registerDelegateMapper.Map<UserTraining>(registerDelegateDTO);
+            User user = _registerDelegateMapper.Map<User>(registerDelegateDTO);
+            PostalAddress postalAddress = _registerDelegateMapper.Map<PostalAddress>(registerDelegateDTO);
+            PhysicalAddress physicalAddress = _registerDelegateMapper.Map<PhysicalAddress>(registerDelegateDTO);
 
             _userAcademyRepository.Add(user);
 
-            // assign user id to their postal & physical address table.
+            // assign user id to user relative tables.
             int userId = user.UserId;
             userTraining.UserId = userId;
             physicalAddress.UserId = userId;

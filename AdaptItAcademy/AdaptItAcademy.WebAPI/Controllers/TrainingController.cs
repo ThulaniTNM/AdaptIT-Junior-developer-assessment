@@ -12,10 +12,12 @@ namespace AdaptItAcademy.WebAPI.Controllers
     public class TrainingController : ControllerBase
     {
         private IRules<TrainingDTO> _trainingRules;
+        private IRules<CourseDTO> _courseRules;
 
-        public TrainingController(IRules<TrainingDTO> trainingRules)
+        public TrainingController(IRules<TrainingDTO> trainingRules, IRules<CourseDTO> courseRules)
         {
             _trainingRules = trainingRules;
+            _courseRules = courseRules;
         }
 
         [HttpGet]
@@ -107,8 +109,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         private CourseDTO VerifyRelatedTableExistent(int id)
         {
             int trainingCourseIdInput = id;
-            IRules<CourseDTO> courseRules = new CourseRules();
-            CourseDTO course = courseRules.GetById(trainingCourseIdInput);
+            CourseDTO course = _courseRules.GetById(trainingCourseIdInput);
             return course;
         }
     }
