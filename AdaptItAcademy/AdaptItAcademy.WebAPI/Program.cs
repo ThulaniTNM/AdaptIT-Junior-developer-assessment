@@ -1,7 +1,8 @@
-using AdaptItAcademy.DataAccess.Models;
 using AdaptITAcademy.BusinessLogic.Business;
 using AdaptITAcademy.BusinessLogic.Business_Rules;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Training;
+using AdaptITAcademy.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -15,9 +16,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // recreate all service instance for all scopes of request.
-builder.Services.AddTransient< IRules<CourseDTO>, CourseRules>();
-builder.Services.AddTransient< IRules<TrainingDTO>, TrainingRules>();
-builder.Services.AddTransient<IRegisterDelegateRules, RegisterDelegateRules>();
+builder.Services.AddDbContext<AdaptITAcademyContext>(options => options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=AdaptItAcademyDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(IAdaptItAcademyGenericRepository<>), typeof(AdaptItAcademyRepository<>));
+builder.Services.AddTransient< ICourseTrainingService<CourseReadDTO, CourseWriteDTO>, CourseService>();
+builder.Services.AddTransient< ICourseTrainingService<TrainingReadDTO, TrainingWriteDTO>, TrainingService>();
+//builder.Services.AddTransient<IRegisterDelegateService, RegisterDelegateService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();

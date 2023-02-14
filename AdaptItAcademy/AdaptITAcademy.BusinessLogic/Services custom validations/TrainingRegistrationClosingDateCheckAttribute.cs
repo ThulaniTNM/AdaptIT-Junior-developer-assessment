@@ -12,7 +12,7 @@ namespace AdaptITAcademy.BusinessLogic.Custom_validations
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var trainingDTO = (TrainingDTO)validationContext.ObjectInstance;
+            var trainingDTO = (TrainingReadDTO)validationContext.ObjectInstance;
             var ClosingDate = (DateTime)value;
 
             if (ClosingDate > trainingDTO.TrainingRegistrationClosingDate)

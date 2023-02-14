@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdaptITAcademy.DataAccess.Repository
+{
+    public interface IUnitOfWork : IDisposable
+    {
+        ICourseRepository Courses { get; }
+        ITrainingRepository  Trainings { get; }
+
+        void CommitDbChanges();
+    }
+}

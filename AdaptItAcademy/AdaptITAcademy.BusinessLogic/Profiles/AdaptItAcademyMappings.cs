@@ -1,4 +1,5 @@
 ﻿using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Training;
 using AdaptITAcademyAPI.Models;
 using AutoMapper;
 using System;
@@ -14,8 +15,10 @@ namespace AdaptITAcademy.BusinessLogic.Profiles
     {
         public AdaptItAcademyMappings()
         {
-            CreateMap<Course, CourseDTO>().ReverseMap();
-            CreateMap<Training, TrainingDTO>().ReverseMap();
+            CreateMap<Course, CourseReadDTO>().ReverseMap();
+            CreateMap<Course, CourseWriteDTO>().ReverseMap();
+            CreateMap<Training, TrainingReadDTO>().ReverseMap();
+            CreateMap<Training, TrainingWriteDTO>().ReverseMap();
             CreateMap<RegisterDelegateDTO, UserTraining>().ReverseMap();
             CreateMap<RegisterDelegateDTO, User>().ReverseMap();
             CreateMap<RegisterDelegateDTO, PhysicalAddress>().ReverseMap();

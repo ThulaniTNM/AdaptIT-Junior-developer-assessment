@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace AdaptITAcademy.BusinessLogic.Business_Rules
 {
-    public interface IRules<T>
+    public interface ICourseTrainingService<R, W> // R = read, has id. W = write doesn't have id
     {
-        void Add(T DTO);
-        List<T> GetAll();
-        T GetById(object id);
-        void Update(object id, T DTO);
+        void Add(W DTO);
+        List<R> GetAll();
+        R GetById(object id);
+        void Update(object id, R DTO); // id required use R
         void Delete(object id);
+
+        void SaveChanges();
     }
 }

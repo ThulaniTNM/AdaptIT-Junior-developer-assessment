@@ -6,14 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdaptItAcademy.DataAccess.Models
+namespace AdaptITAcademy.DataAccess.Repository
 {
     public class AdaptITAcademyContext : DbContext
     {
-        public AdaptITAcademyContext()
-        {
-        }
-
         public AdaptITAcademyContext(DbContextOptions<AdaptITAcademyContext> options) : base(options)
         {
         }

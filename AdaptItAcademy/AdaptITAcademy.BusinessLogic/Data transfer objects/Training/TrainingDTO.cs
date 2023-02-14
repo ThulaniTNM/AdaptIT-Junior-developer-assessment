@@ -6,13 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
+namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects.Training
 {
     public class TrainingDTO
     {
-        [Required(ErrorMessage = "Training id required")]
-        public int TrainingID { get; set; } // for posting not required but updates & delete require id.
-
         [Required(ErrorMessage = "Training start date required")]
         public DateTime TrainingStartDate { get; set; }
 

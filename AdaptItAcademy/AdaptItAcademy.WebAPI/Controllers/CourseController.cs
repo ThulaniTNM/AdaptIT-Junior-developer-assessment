@@ -14,19 +14,19 @@ namespace AdaptItAcademy.WebAPI.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private IRules<CourseDTO> _courseRules;
+        private ICourseTrainingService<CourseReadDTO, CourseWriteDTO> _courseRepository;
 
-        public CourseController(IRules<CourseDTO> courseRules)
+        public CourseController(ICourseTrainingService<CourseReadDTO, CourseWriteDTO> courseRepository)
         {
-            _courseRules = courseRules;
+            _courseRepository = courseRepository;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<CourseDTO>> GetAllCourse()
+        public ActionResult<List<CourseReadDTO>> GetAllCourse()
         {
-            List<CourseDTO> courses = _courseRules.GetAll();
+            List<CourseReadDTO> courses = _courseRepository.GetAll();
 
             if (courses.Count == 0) { return NotFound("Course list is empty"); };
 
@@ -37,7 +37,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<CourseDTO> GetCourseById(int id)
+        public ActionResult<CourseReadDTO> GetCourseById(int id)
         {
             if (id == 0) return BadRequest("Non existent course");
 
@@ -51,28 +51,30 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [Route("AddCourse")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<CourseDTO> Post([FromBody] CourseDTO courseDTO)
+        public ActionResult<CourseWriteDTO> Post([FromBody] CourseWriteDTO courseDTO)
         {
             if (courseDTO == null) return BadRequest("Non existent course");
 
-            if (courseDTO.CourseId != 0) return BadRequest("ID not required for course creation");
+          _courseRepository.Add(courseDTO);
+            _courseRepository.SaveChanges();
 
-            _courseRules.Add(courseDTO);
-            return CreatedAtRoute("GetCourseById", new { id = courseDTO.CourseId }, courseDTO);
+            // last entry insert in db is what we just saved.
+            CourseReadDTO courseRead = _courseRepository.GetAll().LastOrDefault();
+            return CreatedAtRoute("GetCourseById", new { id = courseRead.CourseId }, courseDTO);
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<CourseDTO> Put(int id, [FromBody] CourseDTO courseDTO)
+        public ActionResult<CourseReadDTO> Put(int id, [FromBody] CourseReadDTO courseDTO)
         {
             if (id == 0 || id != courseDTO.CourseId) return BadRequest($"Incorrect supplied id {id}");
 
             var course = GetCourse(id);
             if (course == null) return NotFound($"Course with ID {id} does not exist");
 
-            _courseRules.Update(id, courseDTO);
+            _courseRepository.Update(id, courseDTO);
             return NoContent();
         }
 
@@ -80,21 +82,21 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<CourseDTO> Delete(int id)
+        public ActionResult<CourseReadDTO> Delete(int id)
         {
             if (id == 0) return BadRequest($"Incorrect supplied id {id}");
 
             var course = GetCourse(id);
             if (course == null) return NotFound($"Course with ID {id} does not exist");
 
-            _courseRules.Delete(id);
+            _courseRepository.Delete(id);
             return NoContent();
         }
 
         // Reusable helper methods declarations
-        private CourseDTO GetCourse(int id)
+        private CourseReadDTO GetCourse(int id)
         {
-            return _courseRules.GetById(id);
+            return _courseRepository.GetById(id);
         }
     }
 }

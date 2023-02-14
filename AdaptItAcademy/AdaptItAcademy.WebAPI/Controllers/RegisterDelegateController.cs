@@ -11,31 +11,31 @@ namespace AdaptItAcademy.WebAPI.Controllers
     [ApiController]
     public class RegisterDelegateController : ControllerBase
     {
-        IRegisterDelegateRules _registerDelegateRules;
-        private IRules<TrainingDTO> _trainingRules;
+        //IRegisterDelegateService _registerDelegateRules;
+        //private ICourseTrainingService<TrainingReadDTO> _trainingRules;
 
-        public RegisterDelegateController(IRegisterDelegateRules registerDelegateRules, IRules<TrainingDTO> trainingRules)
-        {
-            _registerDelegateRules = registerDelegateRules;
-            _trainingRules = trainingRules;
-        }
+        //public RegisterDelegateController(IRegisterDelegateService registerDelegateRules, ICourseTrainingService<TrainingReadDTO> trainingRules)
+        //{
+        //    _registerDelegateRules = registerDelegateRules;
+        //    _trainingRules = trainingRules;
+        //}
 
-        [HttpPost]
-        public ActionResult<RegisterDelegateDTO> RegisterDelegate([FromBody] RegisterDelegateDTO value)
-        {
-            TrainingDTO trainingExistence = VerifyRelatedTableExistent(value.TrainingId);
-            if (trainingExistence == null) return NotFound("Training referenced for training not existing");
+        //[HttpPost]
+        //public ActionResult<RegisterDelegateDTO> RegisterDelegate([FromBody] RegisterDelegateDTO value)
+        //{
+        //    TrainingReadDTO trainingExistence = VerifyRelatedTableExistent(value.TrainingId);
+        //    if (trainingExistence == null) return NotFound("Training referenced for training not existing");
 
-            _registerDelegateRules.RegisterDelegate(value);
-            return Created("", "");
-        }
+        //    _registerDelegateRules.RegisterDelegate(value);
+        //    return Created("", "");
+        //}
 
-        private TrainingDTO VerifyRelatedTableExistent(int id)
-        {
-            int trainingCourseIdInput = id;
-            TrainingDTO training = _trainingRules.GetById(trainingCourseIdInput);
+        //private TrainingReadDTO VerifyRelatedTableExistent(int id)
+        //{
+        //    int trainingCourseIdInput = id;
+        //    TrainingReadDTO training = _trainingRules.GetById(trainingCourseIdInput);
 
-            return training;
-        }
+        //    return training;
+        //}
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AdaptITAcademy.BusinessLogic.Business_Rules
 {
-    public interface IRegisterDelegateRules
+    public interface IRegisterDelegateService
     {
         void RegisterDelegate(RegisterDelegateDTO registerDelegateDTO);
     }

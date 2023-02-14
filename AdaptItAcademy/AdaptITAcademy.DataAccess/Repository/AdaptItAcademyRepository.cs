@@ -1,34 +1,32 @@
-﻿using AdaptItAcademy.DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdaptITAcademy.DataAccess.Models
+namespace AdaptITAcademy.DataAccess.Repository
 {
     public class AdaptItAcademyRepository<T> : IAdaptItAcademyGenericRepository<T> where T : class
     {
         private AdaptITAcademyContext _context;
         private DbSet<T> tableSet;
 
-        public AdaptItAcademyRepository()
+        public AdaptItAcademyRepository(AdaptITAcademyContext context)
         {
-            _context = new AdaptITAcademyContext();
+            _context = context;
             tableSet = _context.Set<T>();
         }
-        public void Add(T entity)
+        public T Add(T entity)
         {
             tableSet.Add(entity);
-            _context.SaveChanges();
+            return entity;
         }
 
         public void Delete(object id)
         {
             var tableResult = tableSet.Find(id);
             tableSet.Remove(tableResult);
-            _context.SaveChanges();
         }
 
         public List<T> GetAll()
@@ -44,10 +42,9 @@ namespace AdaptITAcademy.DataAccess.Models
 
         public void Update(T entity)
         {
-            _context.ChangeTracker.Clear(); 
+            _context.ChangeTracker.Clear();
             tableSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();
         }
     }
 }
