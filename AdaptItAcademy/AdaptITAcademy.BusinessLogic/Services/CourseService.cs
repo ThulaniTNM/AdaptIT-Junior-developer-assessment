@@ -1,6 +1,6 @@
 ﻿using AdaptITAcademy.BusinessLogic.Business_Rules;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
-using AdaptITAcademy.DataAccess.Repository;
+using AdaptITAcademy.DataAccess.Repository.@interface;
 using AdaptITAcademyAPI.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdaptITAcademy.DataAccess.Repository
+namespace AdaptITAcademy.DataAccess.Repository.@interface
 {
     public interface IAdaptItAcademyGenericRepository<T> where T : class // might need to limit to only models.
     {

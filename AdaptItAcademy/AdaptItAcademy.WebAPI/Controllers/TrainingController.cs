@@ -2,6 +2,7 @@
 using AdaptITAcademy.BusinessLogic.Business_Rules;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Training;
+using AdaptITAcademy.DataAccess.Repository;
 using AdaptITAcademyAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,8 +62,11 @@ namespace AdaptItAcademy.WebAPI.Controllers
             CourseReadDTO trainingCourseExistence = VerifyRelatedTableExistent(trainingDTO.CourseId);
             if (trainingCourseExistence == null) return NotFound("Course referenced for training not existing");
 
-           TrainingReadDTO trainingReadDTO = _trainingService.Add(trainingDTO);
-            return CreatedAtRoute("GetTrainingById", new { id = trainingReadDTO.TrainingID }, trainingDTO);
+           _trainingService.Add(trainingDTO);
+            _trainingService.SaveChanges();
+            // last entry insert in db is what we just saved.
+            TrainingReadDTO trainingRead = _trainingService.GetAll().LastOrDefault();
+            return CreatedAtRoute("GetTrainingById", new { id = trainingRead.TrainingID }, trainingDTO);
         }
 
         [HttpPut("{id}")]

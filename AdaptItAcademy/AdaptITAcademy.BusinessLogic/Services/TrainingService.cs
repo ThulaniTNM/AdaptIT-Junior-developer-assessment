@@ -1,6 +1,6 @@
 ﻿using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Training;
-using AdaptITAcademy.DataAccess.Repository;
+using AdaptITAcademy.DataAccess.Repository.@interface;
 using AdaptITAcademyAPI.Models;
 using AutoMapper;
 using System;
@@ -18,7 +18,7 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
 
         public TrainingService(IMapper mapper, IUnitOfWork trainingRepositories)
         {
-            _trainingRepositories = _trainingRepositories;
+            _trainingRepositories = trainingRepositories;
             _trainingMapper = mapper;
         }
 

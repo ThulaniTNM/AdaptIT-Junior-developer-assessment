@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdaptITAcademy.DataAccess.Repository
+namespace AdaptITAcademy.DataAccess.Repository.@interface
 {
-    public interface ICourseRepository : IAdaptItAcademyGenericRepository<Course>
+    public interface IUserRepository : IAdaptItAcademyGenericRepository<User>
     {
     }
 }

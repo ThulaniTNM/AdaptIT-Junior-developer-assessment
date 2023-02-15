@@ -1,5 +1,8 @@
 ﻿using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Physical_address;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Postal_address;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Training;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects.User;
 using AdaptITAcademyAPI.Models;
 using AutoMapper;
 using System;

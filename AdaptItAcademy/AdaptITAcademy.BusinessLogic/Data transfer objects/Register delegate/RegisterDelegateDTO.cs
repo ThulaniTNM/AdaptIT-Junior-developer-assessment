@@ -1,4 +1,7 @@
 ﻿using AdaptITAcademy.BusinessLogic.Custom_validations;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Physical_address;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects.Postal_address;
+using AdaptITAcademy.BusinessLogic.Data_transfer_objects.User;
 using AdaptITAcademyAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +15,6 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
 {
     public class RegisterDelegateDTO
     {
-
         // user start
         [Required(ErrorMessage = "First name required")]
         public string FirstName { get; set; }
@@ -22,12 +24,12 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
 
         [Required(ErrorMessage = "Phone number required")]
         [MaxLength(10, ErrorMessage = "Phone number should be 10 numbers")]
-        [RegularExpression(@"0(\d{9}|\d{2} \d{3} \d{4}|\d{2}-\d{3}-\d{4})",ErrorMessage = " Use Eg 071-144-6789 or 067 145 8521 or 0647894563")]
+        [RegularExpression(@"0(\d{9}|\d{2} \d{3} \d{4}|\d{2}-\d{3}-\d{4})", ErrorMessage = " Use Eg 071-144-6789 or 067 145 8521 or 0647894563")]
         public string PhonenNumer { get; set; }
 
         [Required(ErrorMessage = "Email required")]
         // negate all non-alphabet characters at the end of the email.
-        [RegularExpression("^[a-zA-Z0-9+\\._-]+@[a-zA-Z]+\\.[a-zA-Z\\.-]+[^()._;*\\[\\]{}+-=|\"'><?&^$#!~%\\\\]$",ErrorMessage ="Incorrect email pattern")]
+        [RegularExpression("^[a-zA-Z0-9+\\._-]+@[a-zA-Z]+\\.[a-zA-Z\\.-]+[^()._;*\\[\\]{}+-=|\"'><?&^$#!~%\\\\]$", ErrorMessage = "Incorrect email pattern")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Dietary option required")]
@@ -38,8 +40,8 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         public string CompanyName { get; set; }
         // user end
 
+        // physical address start
 
-        // user physical address start
         [Required(ErrorMessage = "Address name required")]
         public string StreetAddress { get; set; }
 
@@ -52,7 +54,7 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         [Required(ErrorMessage = "Postal code required")]
         [PostalCodeCheckAttribute]
         public int PostalCodePhysicalAddress { get; set; }
-        // user physical address end
+        // physical address end
 
         // postal address start
         [Required(ErrorMessage = "Area required")]
@@ -64,7 +66,7 @@ namespace AdaptITAcademy.BusinessLogic.Data_transfer_objects
         [Required(ErrorMessage = "Postal code required")]
         [PostalCodeCheckAttribute]
         public int PostalCodePostalAddress { get; set; }
-        // postal address end.
+        // postal address end
 
         [Required(ErrorMessage = "Training id required")]
         public int TrainingId { get; set; }
