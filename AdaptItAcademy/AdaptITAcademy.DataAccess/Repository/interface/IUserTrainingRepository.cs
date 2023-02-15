@@ -9,6 +9,5 @@ namespace AdaptITAcademy.DataAccess.Repository.@interface
 {
     public interface IUserTrainingRepository : IAdaptItAcademyGenericRepository<UserTraining>
     {
-        AdaptITAcademyContext RetrieveContextInUse(); // for retrieve context in registering delegate service.
     }
 }

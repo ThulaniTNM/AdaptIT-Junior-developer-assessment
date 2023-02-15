@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AdaptITAcademy.DataAccess.Repository.@interface
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
         ICourseRepository Courses { get; }
         ITrainingRepository Trainings { get; }
@@ -16,5 +16,7 @@ namespace AdaptITAcademy.DataAccess.Repository.@interface
         IPhysicalAddressRepository PhysicalAddresses { get; }
         IUserTrainingRepository UsersTrainings { get; }
         void CommitDbChanges();
+
+        AdaptITAcademyContext GetContext();
     }
 }

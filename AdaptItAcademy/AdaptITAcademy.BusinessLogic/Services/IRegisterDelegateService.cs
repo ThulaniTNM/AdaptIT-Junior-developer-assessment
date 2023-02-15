@@ -11,6 +11,6 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
     public interface IRegisterDelegateService
     {
         void RegisterDelegate(RegisterDelegateDTO registerDelegateDTO);
-        AdaptITAcademyContext GetContext(); // context to establish manual transaction commit & rollback.
+        AdaptITAcademyContext GetContext();
     }
 }

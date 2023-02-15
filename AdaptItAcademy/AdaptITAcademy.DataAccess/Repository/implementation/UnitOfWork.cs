@@ -31,14 +31,13 @@ namespace AdaptITAcademy.DataAccess.Repository.implementation
             UsersTrainings = new UserTrainingRepository(context);
         }
 
+        public AdaptITAcademyContext GetContext()
+        {
+            return this._context; // context shared by all repos, to use for transaction commit & rollback.
+        }
         public void CommitDbChanges()
         {
             _context.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
         }
     }
 }

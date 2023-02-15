@@ -27,10 +27,10 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
         {
             _registerDelegateMapper = mapper;
             _registerDelegateRepository = registerDelegateRepository;
-            _context = registerDelegateRepository.UsersTrainings.RetrieveContextInUse();
+            _context = registerDelegateRepository.GetContext();
         }
 
-        public AdaptITAcademyContext GetContext() // all entities in IUnitOfWork use the same context object.
+        public AdaptITAcademyContext GetContext() 
         {
             return _context;
         }
@@ -67,7 +67,7 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
             Training training = _registerDelegateRepository.Trainings.GetById(trainingId);
             training.AvailableSeats--;
             _registerDelegateRepository.Trainings.Update(training);
-            _registerDelegateRepository.CommitDbChanges(); 
+            _registerDelegateRepository.CommitDbChanges();
         }
     }
 }

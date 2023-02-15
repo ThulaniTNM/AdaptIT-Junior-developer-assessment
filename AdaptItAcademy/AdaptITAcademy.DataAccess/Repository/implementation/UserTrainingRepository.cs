@@ -16,9 +16,5 @@ namespace AdaptITAcademy.DataAccess.Repository.implementation
             _context = context;
         }
 
-        public AdaptITAcademyContext RetrieveContextInUse()
-        {
-            return _context;
-        }
     }
 }
