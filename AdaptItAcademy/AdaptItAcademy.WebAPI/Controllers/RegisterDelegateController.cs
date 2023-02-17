@@ -17,9 +17,9 @@ namespace AdaptItAcademy.WebAPI.Controllers
     public class RegisterDelegateController : ControllerBase
     {
         private IRegisterDelegateService _registerDelegateService;
-        private ICourseTrainingService<TrainingReadDTO,TrainingWriteDTO> _trainingRepository;
+        private ICourseTrainingService<TrainingReadDTO, TrainingWriteDTO> _trainingRepository;
 
-        public RegisterDelegateController(IRegisterDelegateService registerDelegateService, ICourseTrainingService<TrainingReadDTO,TrainingWriteDTO> trainingRepository)
+        public RegisterDelegateController(IRegisterDelegateService registerDelegateService, ICourseTrainingService<TrainingReadDTO, TrainingWriteDTO> trainingRepository)
         {
             _registerDelegateService = registerDelegateService;
             _trainingRepository = trainingRepository;
@@ -39,12 +39,11 @@ namespace AdaptItAcademy.WebAPI.Controllers
                     _registerDelegateService.RegisterDelegate(value);
 
                     transaction.Commit();
-
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    return StatusCode(500,ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
             var registered = new { status = "Delegate registered for training", value };

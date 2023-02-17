@@ -29,6 +29,7 @@ namespace AdaptITAcademy.BusinessLogic.Business
             Course course = _courseMapper.Map<Course>(courseDTO);
 
             _courseRepository.Courses.Add(course);
+            _courseRepository.CommitDbChanges();
         }
 
         public List<CourseReadDTO> GetAll()
@@ -51,15 +52,12 @@ namespace AdaptITAcademy.BusinessLogic.Business
         {
             Course course = _courseMapper.Map<Course>(courseDTO);
             _courseRepository.Courses.Update(course);
+            _courseRepository.CommitDbChanges();
         }
 
         public void Delete(object id)
         {
             _courseRepository.Courses.Delete(id);
-        }
-
-        public void SaveChanges()
-        {
             _courseRepository.CommitDbChanges();
         }
     }

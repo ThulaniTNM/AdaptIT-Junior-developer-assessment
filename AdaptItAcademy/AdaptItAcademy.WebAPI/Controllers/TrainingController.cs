@@ -63,7 +63,6 @@ namespace AdaptItAcademy.WebAPI.Controllers
             if (trainingCourseExistence == null) return NotFound("Course referenced for training not existing");
 
            _trainingService.Add(trainingDTO);
-            _trainingService.SaveChanges();
             // last entry insert in db is what we just saved.
             TrainingReadDTO trainingRead = _trainingService.GetAll().LastOrDefault();
             return CreatedAtRoute("GetTrainingById", new { id = trainingRead.TrainingID }, trainingDTO);

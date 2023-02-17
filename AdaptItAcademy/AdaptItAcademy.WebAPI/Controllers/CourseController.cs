@@ -56,7 +56,6 @@ namespace AdaptItAcademy.WebAPI.Controllers
             if (courseDTO == null) return BadRequest("Non existent course");
 
           _courseRepository.Add(courseDTO);
-            _courseRepository.SaveChanges();
 
             // last entry insert in db is what we just saved.
             CourseReadDTO courseRead = _courseRepository.GetAll().LastOrDefault();

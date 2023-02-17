@@ -30,7 +30,7 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
             _context = registerDelegateRepository.GetContext();
         }
 
-        public AdaptITAcademyContext GetContext() 
+        public AdaptITAcademyContext GetContext()
         {
             return _context;
         }

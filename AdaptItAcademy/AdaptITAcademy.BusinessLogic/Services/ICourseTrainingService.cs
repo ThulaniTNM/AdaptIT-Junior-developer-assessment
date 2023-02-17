@@ -14,7 +14,5 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
         R GetById(object id);
         void Update(object id, R DTO); // id required use R
         void Delete(object id);
-
-        void SaveChanges();
     }
 }

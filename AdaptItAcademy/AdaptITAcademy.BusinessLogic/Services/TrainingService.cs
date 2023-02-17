@@ -43,21 +43,19 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
             // compute end date from starting date & number of days training will take + 5 hours assuming each training takes 5 hours
             training.TrainingEndDate = training.TrainingStartDate.AddDays(training.TrainingPeriod).AddHours(5);
           Training savedTraining =  _trainingRepositories.Trainings.Add(training);
+            _trainingRepositories.CommitDbChanges();
         }
 
         public void Update(object id, TrainingReadDTO trainingDTO)
         {
             Training training = _trainingMapper.Map<Training>(trainingDTO);
             _trainingRepositories.Trainings.Update(training);
+            _trainingRepositories.CommitDbChanges();
         }
 
         public void Delete(object id)
         {
             _trainingRepositories.Trainings.Delete(id);
-        }
-
-        public void SaveChanges()
-        {
             _trainingRepositories.CommitDbChanges();
         }
     }
