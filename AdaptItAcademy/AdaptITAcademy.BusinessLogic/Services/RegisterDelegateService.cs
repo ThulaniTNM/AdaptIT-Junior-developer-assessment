@@ -35,14 +35,11 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
             return _context;
         }
 
+        // this is one big transaction involving adding user & relative tables data + registering user for a training.
+        // transaction only passes after all operations passes.
+        // start transaction directly inside method, not in controller
         public void RegisterDelegate(RegisterDelegateDTO registerDelegateDTO)
         {
-            // this is one big transaction involving adding user & relative tables data + registering user for a training.
-            // transaction only passes after all operations passes.
-            // start transaction directly inside method, not in controller
-
-
-
             UserTraining userTraining = _registerDelegateMapper.Map<UserTraining>(registerDelegateDTO);
             User user = _registerDelegateMapper.Map<User>(registerDelegateDTO);
             PostalAddress postalAddress = _registerDelegateMapper.Map<PostalAddress>(registerDelegateDTO);

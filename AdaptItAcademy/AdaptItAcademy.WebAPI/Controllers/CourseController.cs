@@ -27,9 +27,6 @@ namespace AdaptItAcademy.WebAPI.Controllers
         public ActionResult<List<CourseReadDTO>> GetAllCourse()
         {
             List<CourseReadDTO> courses = _courseRepository.GetAll();
-
-            if (courses.Count == 0) { return NotFound("Course list is empty"); };
-
             return Ok(courses);
         }
 
@@ -39,10 +36,10 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<CourseReadDTO> GetCourseById(int id)
         {
-            if (id == 0) return BadRequest("Non existent course");
+            // handle incorrect id type & throw
 
             var course = GetCourse(id);
-            if (course == null) return NotFound("Course not found");
+            if (course == null) throw new KeyNotFoundException($"Course with ID : {id} Not Found");
 
             return Ok(course);
         }

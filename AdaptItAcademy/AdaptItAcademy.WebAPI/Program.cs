@@ -1,3 +1,4 @@
+using AdaptItAcademy.WebAPI.Error_handlers;
 using AdaptITAcademy.BusinessLogic.Business;
 using AdaptITAcademy.BusinessLogic.Business_Rules;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
@@ -34,6 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// global error handler
+app.UseExceptionMiddleware();
 
 app.UseHttpsRedirection();
 
