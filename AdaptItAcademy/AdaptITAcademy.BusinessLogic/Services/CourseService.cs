@@ -1,5 +1,6 @@
 ﻿using AdaptITAcademy.BusinessLogic.Business_Rules;
 using AdaptITAcademy.BusinessLogic.Data_transfer_objects;
+using AdaptITAcademy.BusinessLogic.Errors;
 using AdaptITAcademy.DataAccess.Repository.@interface;
 using AdaptITAcademyAPI.Models;
 using AutoMapper;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace AdaptITAcademy.BusinessLogic.Business
 {
-    public class CourseService : ICourseTrainingService<CourseReadDTO,CourseWriteDTO>
+    public class CourseService : ICourseTrainingService<CourseReadDTO, CourseWriteDTO>
     {
         private IUnitOfWork _courseRepository;
         private IMapper _courseMapper;
@@ -43,20 +44,35 @@ namespace AdaptITAcademy.BusinessLogic.Business
         public CourseReadDTO GetById(object id)
         {
             Course course = _courseRepository.Courses.GetById(id);
-            CourseReadDTO courseDTO = _courseMapper.Map< CourseReadDTO>(course);
 
+            if (course == null)
+                throw new NotFoundItemException($"Course {id} not found");
+
+            CourseReadDTO courseDTO = _courseMapper.Map<CourseReadDTO>(course);
             return courseDTO;
         }
 
-        public void Update(object id, CourseReadDTO courseDTO)
+        public void Update(object id, CourseWriteDTO courseDTO)
         {
-            Course course = _courseMapper.Map<Course>(courseDTO);
+            Course course = _courseRepository.Courses.GetById(id);
+
+            if (course == null)
+                throw new NotFoundItemException($"Course {id} not found");
+
+            course = _courseMapper.Map<Course>(courseDTO);
+            course.CourseId = (int)id;
+
             _courseRepository.Courses.Update(course);
             _courseRepository.CommitDbChanges();
         }
 
         public void Delete(object id)
         {
+            Course course = _courseRepository.Courses.GetById(id);
+
+            if (course == null)
+                throw new NotFoundItemException($"Course {id} not found");
+
             _courseRepository.Courses.Delete(id);
             _courseRepository.CommitDbChanges();
         }

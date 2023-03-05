@@ -44,8 +44,7 @@ namespace AdaptITAcademy.DataAccess.Repository.implementation
         public void Update(T entity)
         {
             _context.ChangeTracker.Clear();
-            tableSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            tableSet.Update(entity);
         }
     }
 }

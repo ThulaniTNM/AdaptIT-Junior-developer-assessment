@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AdaptITAcademy.BusinessLogic.Errors;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Threading.Tasks;
@@ -32,6 +33,9 @@ namespace AdaptItAcademy.WebAPI.Error_handlers
 
                 switch (ex)
                 {
+                    case NotFoundItemException notFoundItem:
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
                     case BadHttpRequestException badHttp:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;

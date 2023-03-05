@@ -12,7 +12,7 @@ namespace AdaptITAcademy.BusinessLogic.Business_Rules
         void Add(W DTO);
         List<R> GetAll();
         R GetById(object id);
-        void Update(object id, R DTO); // id required use R
+        void Update(object id, W DTO);
         void Delete(object id);
     }
 }

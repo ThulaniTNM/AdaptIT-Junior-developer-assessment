@@ -37,10 +37,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         public ActionResult<CourseReadDTO> GetCourseById(int id)
         {
             // handle incorrect id type & throw
-
-            var course = GetCourse(id);
-            if (course == null) throw new KeyNotFoundException($"Course with ID : {id} Not Found");
-
+            var course = _courseRepository.GetById(id);
             return Ok(course);
         }
 
@@ -50,9 +47,7 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult<CourseWriteDTO> Post([FromBody] CourseWriteDTO courseDTO)
         {
-            if (courseDTO == null) return BadRequest("Non existent course");
-
-          _courseRepository.Add(courseDTO);
+            _courseRepository.Add(courseDTO);
 
             // last entry insert in db is what we just saved.
             CourseReadDTO courseRead = _courseRepository.GetAll().LastOrDefault();
@@ -63,13 +58,8 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<CourseReadDTO> Put(int id, [FromBody] CourseReadDTO courseDTO)
+        public ActionResult<CourseReadDTO> Put(int id, [FromBody] CourseWriteDTO courseDTO)
         {
-            if (id == 0 || id != courseDTO.CourseId) return BadRequest($"Incorrect supplied id {id}");
-
-            var course = GetCourse(id);
-            if (course == null) return NotFound($"Course with ID {id} does not exist");
-
             _courseRepository.Update(id, courseDTO);
             return NoContent();
         }
@@ -80,19 +70,8 @@ namespace AdaptItAcademy.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult<CourseReadDTO> Delete(int id)
         {
-            if (id == 0) return BadRequest($"Incorrect supplied id {id}");
-
-            var course = GetCourse(id);
-            if (course == null) return NotFound($"Course with ID {id} does not exist");
-
             _courseRepository.Delete(id);
             return NoContent();
-        }
-
-        // Reusable helper methods declarations
-        private CourseReadDTO GetCourse(int id)
-        {
-            return _courseRepository.GetById(id);
         }
     }
 }
